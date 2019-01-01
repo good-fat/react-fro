@@ -1,21 +1,13 @@
 'use strict';
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
 var _slicedToArray = function() { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function(arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 var _immutable = require('immutable');
-
 var _immutable2 = _interopRequireDefault(_immutable);
-
 var _pmfl = require('pmfl');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var create = function create() {
-
   var fro = {};
   fro.id = {};
   fro.logic = {};
@@ -32,7 +24,6 @@ var create = function create() {
       for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
       }
-
       if (logicList.size !== 0) {
         var condition = logicList.first();
         logicList = logicList.shift();
@@ -82,7 +73,6 @@ var create = function create() {
       }).match([_pmfl.type.of(result)], result);
       return fro.logic;
     };
-    //undefined
     _pmfl.pmfl.make2().add(function(data) {
       if (data[0] === undefined) return true;
     }, function(data) {
@@ -106,7 +96,6 @@ var create = function create() {
     for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
       args[_key2] = arguments[_key2];
     }
-
     args.map(function(str) {
       fro.logic[str] = undefined;
       return;
@@ -122,7 +111,6 @@ var create = function create() {
       var _data3 = _slicedToArray(data, 2),
         str1 = _data3[0],
         data1 = _data3[1];
-
       virtualData = virtualData.set(str1, data1);
     }).match([virtualData.has(str)], [str, data]);
     return fro;
@@ -134,18 +122,10 @@ var create = function create() {
     fro.state = realData.toJS();
     return fro;
   };
-  // const linkClass = (str, data, func) => {
-  //   virtualData = virtualData.set(str, data)
-  //   realData = realData.set(str, data)
-  //   realDataFunc = realDataFunc.set(str, func)
-  //   fro.state = realData.toJS()
-  //   return fro
-  // }
   var setId = function setId() {
     for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
       args[_key3] = arguments[_key3];
     }
-
     args.map(function(str) {
       fro.id[str] = str;
     });
@@ -155,7 +135,6 @@ var create = function create() {
     for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
       args[_key4] = arguments[_key4];
     }
-
     args.map(function(str) {
       fro.id[str] = undefined;
     });
@@ -177,11 +156,17 @@ var create = function create() {
     fro.ref = {};
     return fro;
   };
+  var log = function log() {
+    console.info("id", fro.id);
+    console.info("ref", fro.ref);
+    console.info("logic", fro.logic);
+    console.info("state", fro.state);
+    return fro;
+  };
   var apply = function apply() {
     for (var _len5 = arguments.length, args = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
       args[_key5] = arguments[_key5];
     }
-
     _pmfl.pmfl.make2().add([0], function(data) {
       changeId.map(function(value) {
         if (realDataFunc.has(value)) {
@@ -239,20 +224,19 @@ var create = function create() {
   fro.clear = clear;
   fro.set = set;
   fro.link = link;
-  // fro.linkClass = linkClass
   fro.setId = setId;
   fro.removeId = removeId;
   fro.clearId = clearId;
   fro.setRef = setRef;
   fro.removeRef = removeRef;
   fro.clearRef = clearRef;
+  fro.log = log;
   fro.logic.apply = apply;
   fro.logic.ifonly = ifonly;
   fro.logic.ifelse = ifelse;
   fro.logic.ifAll = ifAll;
   fro.logic.endIf = endIf;
   fro.logic.repeat = repeat;
-
   return fro;
 };
 var fro = create();

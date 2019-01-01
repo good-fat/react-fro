@@ -143,6 +143,13 @@ const create = () => {
     fro.ref = {}
     return fro
   }
+  const log = () => {
+    console.info("id", fro.id)
+    console.info("ref", fro.ref)
+    console.info("logic", fro.logic)
+    console.info("state", fro.state)
+    return fro
+  }
   const apply = (...args) => {
     pmfl.make2().add([0], (data) => {
       changeId.map((value) => {
@@ -200,6 +207,7 @@ const create = () => {
       repeatCount = times
     return fro.logic
   }
+
   fro.add = add
   fro.remove = remove
   fro.clear = clear
@@ -212,6 +220,7 @@ const create = () => {
   fro.setRef = setRef
   fro.removeRef = removeRef
   fro.clearRef = clearRef
+  fro.log = log
   fro.logic.apply = apply
   fro.logic.ifonly = ifonly
   fro.logic.ifelse = ifelse
