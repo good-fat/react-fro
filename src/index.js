@@ -151,7 +151,7 @@ const create = () => {
     return fro
   }
   const apply = (...args) => {
-    pmfl.make2().add([0], (data) => {
+    pmfl.make2().add([0], () => {
       changeId.map((value) => {
         if (realDataFunc.has(value)) {
           realDataFunc.get(value)(virtualData.get(value))
@@ -183,7 +183,7 @@ const create = () => {
     }
     return fro.logic
   }
-  const ifAll = (condition) => {
+  const ifall = (condition) => {
     let tempArray = []
     if (condition) {
       for (let i = 0; i < 1024; i++) {
@@ -198,7 +198,7 @@ const create = () => {
     logicList = Immutable.List(tempArray)
     return fro.logic
   }
-  const endIf = () => {
+  const endif = () => {
     logicList = Immutable.List([])
     return fro.logic
   }
@@ -224,8 +224,8 @@ const create = () => {
   fro.logic.apply = apply
   fro.logic.ifonly = ifonly
   fro.logic.ifelse = ifelse
-  fro.logic.ifAll = ifAll
-  fro.logic.endIf = endIf
+  fro.logic.ifall = ifall
+  fro.logic.endif = endif
   fro.logic.repeat = repeat
 
   return fro
