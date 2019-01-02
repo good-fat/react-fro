@@ -1,6 +1,6 @@
 # react-fro
 A interesting data management library of react that uses virtual data technology and chained logic calling technology.
-##### fro means function return object.
+#### fro means function return object.
 - 使用虚拟数据进行计算，在恰当的时候应用到真实世界
 - 把逻辑封装为一个个函数，通过调用不同的函数组合来实现程序
 - 使用链式调用和巧妙的功能函数，让组合函数的过程变得美妙
@@ -27,4 +27,12 @@ function App(props) {
   </div >
 }
 export default App;
+```
+## 安装
+推荐使用yarn进行安装
+```
+yarn add react-fro
+```
+```
+npm i react-fro --save
 ```
