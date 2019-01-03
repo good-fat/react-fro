@@ -33,6 +33,7 @@ export default App;
 ```
 yarn add react-fro
 ```
+或者
 ```
 npm i react-fro --save
 ```
