@@ -143,11 +143,25 @@ const create = () => {
     fro.ref = {}
     return fro
   }
-  const log = () => {
-    console.info("id", fro.id)
-    console.info("ref", fro.ref)
-    console.info("logic", fro.logic)
-    console.info("state", fro.state)
+  const log = (str) => {
+    if(str === "id"){
+      console.info("id", fro.id)
+    }
+    else if(str === "ref"){
+      console.info("ref", fro.ref)
+    }
+    else if(str === "logic"){
+      console.info("logic", fro.logic)
+    }
+    else if(str === "state"){
+      console.info("state", fro.state)
+    }
+    else{
+      console.info("id", fro.id)
+      console.info("ref", fro.ref)
+      console.info("logic", fro.logic)
+      console.info("state", fro.state)
+    }
     return fro
   }
   const apply = (...args) => {

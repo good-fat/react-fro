@@ -22,8 +22,8 @@ function App(props) {
     return { [id.count]: state.count + 1 }
   }
   return <div>
-    <p>每次点击按钮，数字就增加5-----{fro2.state.count}</p>
-    <button onClick={() => { fro2.logic.repeat(5).countPlus().apply("count")}}>点击我</button>
+    <p>每次点击按钮，数字就增加五--{fro.state.count}</p>
+    <button onClick={() => { fro.logic.repeat(5).countPlus().apply("count")}}>点击我</button>
   </div >
 }
 export default App;
@@ -37,3 +37,27 @@ yarn add react-fro
 ```
 npm i react-fro --save
 ```
+## API
+### 对象
+#### fro
+装载所有方法和对象的对象。
+##### 包含
+- fro.id
+- fro.logic
+- fro.state
+- fro.ref
+- fro.add(func, otherName)
+- fro.remove(...args)
+- fro.clear()
+- fro.set(str, data)
+- fro.link(str, dataArray)
+- fro.setId(...args)
+- fro.removeId(...args)
+- fro.clearId()
+- fro.setRef(str, dom)
+- fro.removeRef(str)
+- fro.clearRef()
+- fro.log()
+- fro.log(str)
+#### fro.id
+装载关键字数据的对象，fro.setId(...args)，fro.removeId(...args)，fro.clearId()方法可以改变此对象的值。
