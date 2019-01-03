@@ -61,3 +61,18 @@ npm i react-fro --save
 - fro.log(str)
 ### fro.id
 装载关键字数据的对象，fro.setId(...args)，fro.removeId(...args)，fro.clearId()方法可以改变此对象的值。
+### fro.logic
+装载所有fro.add(func, otherName)方法添加的逻辑函数，和fro.logic对象自带的逻辑功能函数，fro.remove(...args)，fro.clear()方法也可作用于此对象。
+#### 包含
+- fro.logic.apply(...args)
+- fro.logic.ifonly(condition)
+- fro.logic.ifelse(condition)
+- fro.logic.ifall(condition)
+- fro.logic.endif()
+- fro.logic.repeat(times)
+### fro.state
+装载所有react渲染所需的数据，由fro.link(str, dataArray)方法初始化此对象内部的数据，由fro.logic.apply(...args)方法同步虚拟数据到此对象内部。
+### fro.ref
+装载react特有的ref数据，此对象由fro.setRef(str, dom)，fro.removeRef(str)，fro.clearRef()方法管理。
+## 方法
+### fro.add(func, otherName)
