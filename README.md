@@ -61,8 +61,7 @@ npm i react-fro --save
 - fro.setRef(str, dom)
 - fro.removeRef(str)
 - fro.clearRef()
-- fro.log()
-- fro.log(str)
+- fro.log(str?)
 ---
 ### fro.id
 ##### 装载关键字数据的对象，`fro.setId(...args)`，`fro.removeId(...args)`，`fro.clearId()`方法可以改变此对象的值。
@@ -328,10 +327,40 @@ function App(props) {
   fro.setId("input")
 
   return <div>
-    <button onClick={()=>{fro.ref.input.focus();fro.removeRef(fro.id.input)}}>focus input</button>
+    <button onClick={()=>{
+      if(fro.ref.hasOwnProperty(fro.id.input))
+        fro.ref.input.focus()
+      fro.removeRef(fro.id.input)
+    }}>focus input</button>
     <input type="text" ref={(input)=>fro.setRef(fro.id.input,input)}/>
   </div>
 
 }
 ```
 ---
+### fro.clearRef()
+##### 清空`fro.ref`对象中的数据（慎用）。
+#### 返回值：`fro`
+#### 例子
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.setId("input")
+
+  return <div>
+    <button onClick={()=>{
+      if(fro.ref.hasOwnProperty(fro.id.input))
+        fro.ref.input.focus()
+      fro.clearRef()
+    }}>focus input</button>
+    <input type="text" ref={(input)=>fro.setRef(fro.id.input,input)}/>
+  </div>
+
+}
+```
+---
+### fro.log(str?)
+##### 输出当前fro对象中的数据

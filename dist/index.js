@@ -188,11 +188,14 @@ var create = function create() {
       console.info("logic", fro.logic);
     } else if (str === "state") {
       console.info("state", fro.state);
+    } else if (str === "virtualState") {
+      console.info("virtualState", virtualData.toJS());
     } else {
       console.info("id", fro.id);
       console.info("ref", fro.ref);
       console.info("logic", fro.logic);
       console.info("state", fro.state);
+      console.info("virtualState", virtualData.toJS());
     }
     return fro;
   };
