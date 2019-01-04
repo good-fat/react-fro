@@ -4,9 +4,9 @@ A interesting data management library of react that uses virtual data technology
 - 使用虚拟数据进行计算，在恰当的时候应用到真实世界
 - 把逻辑封装为一个个函数，通过调用不同的函数组合来实现程序
 - 使用链式调用和巧妙的功能函数，让组合函数的过程变得美妙
-- 使用log函数随时查看程序运行数据
-- 依赖Immutable.js和pmfl
-- 目前只支持React v16.7.0-alpha
+- 使用`log`函数随时查看程序运行数据
+- 依赖`Immutable.js`和`pmfl`
+- 目前只支持`React v16.7.0-alpha`
 ---
 # 示例程序
 ```javascript
@@ -65,10 +65,10 @@ npm i react-fro --save
 - fro.log(str)
 ---
 ### fro.id
-##### 装载关键字数据的对象，fro.setId(...args)，fro.removeId(...args)，fro.clearId()方法可以改变此对象的值。
+##### 装载关键字数据的对象，`fro.setId(...args)`，`fro.removeId(...args)`，`fro.clearId()`方法可以改变此对象的值。
 ---
 ### fro.logic
-装载所有fro.add(func, otherName)方法添加的逻辑函数，和fro.logic对象自带的逻辑功能函数，fro.remove(...args)，fro.clear()方法也可作用于此对象。
+##### 装载所有`fro.add(func, otherName)`方法添加的逻辑函数，和`fro.logic`对象自带的逻辑功能函数，`fro.remove(...args)`，`fro.clear()`方法也可作用于此对象。
 #### 包含
 - fro.logic.apply(...args)
 - fro.logic.ifonly(condition)
