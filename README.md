@@ -43,9 +43,8 @@ npm i react-fro --save
 # API
 ---
 ## 对象
----
 ### fro
-装载所有方法和对象的对象。
+##### 装载所有方法和对象的对象。
 #### 包含
 - fro.id
 - fro.logic
@@ -66,7 +65,7 @@ npm i react-fro --save
 - fro.log(str)
 ---
 ### fro.id
-装载关键字数据的对象，fro.setId(...args)，fro.removeId(...args)，fro.clearId()方法可以改变此对象的值。
+##### 装载关键字数据的对象，fro.setId(...args)，fro.removeId(...args)，fro.clearId()方法可以改变此对象的值。
 ---
 ### fro.logic
 装载所有fro.add(func, otherName)方法添加的逻辑函数，和fro.logic对象自带的逻辑功能函数，fro.remove(...args)，fro.clear()方法也可作用于此对象。
