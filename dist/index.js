@@ -109,6 +109,7 @@ var create = function create() {
 
     args.map(function(str) {
       fro.logic[str] = undefined;
+      delete fro.logic[str];
       return;
     });
     return fro;
@@ -151,6 +152,7 @@ var create = function create() {
 
     args.map(function(str) {
       fro.id[str] = undefined;
+      delete fro.id[str];
     });
     return fro;
   };
@@ -164,17 +166,28 @@ var create = function create() {
   };
   var removeRef = function removeRef(str) {
     fro.ref[str] = undefined;
+    delete fro.ref[str];
     return fro;
   };
   var clearRef = function clearRef() {
     fro.ref = {};
     return fro;
   };
-  var log = function log() {
-    console.info("id", fro.id);
-    console.info("ref", fro.ref);
-    console.info("logic", fro.logic);
-    console.info("state", fro.state);
+  var log = function log(str) {
+    if (str === "id") {
+      console.info("id", fro.id);
+    } else if (str === "ref") {
+      console.info("ref", fro.ref);
+    } else if (str === "logic") {
+      console.info("logic", fro.logic);
+    } else if (str === "state") {
+      console.info("state", fro.state);
+    } else {
+      console.info("id", fro.id);
+      console.info("ref", fro.ref);
+      console.info("logic", fro.logic);
+      console.info("state", fro.state);
+    }
     return fro;
   };
   var apply = function apply() {

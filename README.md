@@ -193,6 +193,7 @@ function App(props) {
     //can't call setCount function because it does not exist in fro.logic object.
 }
 ```
+---
 ### fro.link(str, dataArray)
 ##### 双向绑定`react`渲染所需数据到`fro`中的真实数据对象，并把数据复制到`fro`中的虚拟数据对象。
 #### 参数
@@ -216,3 +217,121 @@ function App(props) {
 
 }
 ```
+---
+### fro.setId(...args)
+##### 设置`fro.id`对象数据的函数。
+#### 参数
+- `args: Array<String>` 包含要设置的id数据的数组。
+#### 返回值：`fro`
+#### 例子
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.setId("count","setCount")
+  .add((id, state)=>[id.count, state.count + 1], fro.id.setCount)
+  .link(fro.id.count, useState(0))
+
+  return <div>
+    <p>{fro.state.count}</p>
+    <button onClick={()=>{fro.logic.setCount().apply()}}>plus 1</button>
+  </div>
+
+}
+```
+---
+### fro.removeId(...args)
+##### 移除`fro.id`对象数据的函数。
+#### 参数
+- `args: Array<String>` 包含要移除的id数据的数组。
+#### 返回值：`fro`
+#### 例子
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.setId("count","setCount")
+  .removeId("count")
+  .add((id, state)=>["count", state.count + 1], fro.id.setCount)
+  .link("count", useState(0))
+  //Cannot use id.count because it has been removed
+  return <div>
+    <p>{fro.state.count}</p>
+    <button onClick={()=>{fro.logic.setCount().apply()}}>plus 1</button>
+  </div>
+
+}
+```
+---
+### fro.clearId()
+##### 清空`fro.id`对象数据的函数（慎用）。
+#### 返回值：`fro`
+#### 例子
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.setId("count","setCount")
+  .clearId()
+  .add((id, state)=>["count", state.count + 1], "setCount")
+  .link("count", useState(0))
+  //Cannot use id.count and id.setCount because they have been removed
+  return <div>
+    <p>{fro.state.count}</p>
+    <button onClick={()=>{fro.logic.setCount().apply()}}>plus 1</button>
+  </div>
+
+}
+```
+---
+### fro.setRef(str, dom)
+##### 绑定`react`的`ref`数据到`fro.ref`对象。
+#### 参数
+- `str: String` 绑定`ref`的变量名。
+- `dom：Ref` `ref`数据。
+#### 返回值：`fro`
+#### 例子
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.setId("input")
+
+  return <div>
+    <button onClick={()=>{fro.ref.input.focus()}}>focus input</button>
+    <input type="text" ref={(input)=>fro.setRef(fro.id.input,input)}/>
+  </div>
+
+}
+```
+---
+### fro.removeRef(str)
+##### 移除`fro.ref`对象中的数据。
+#### 参数
+- `str: String` 要移除的`ref`的变量名。
+#### 返回值：`fro`
+#### 例子
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.setId("input")
+
+  return <div>
+    <button onClick={()=>{fro.ref.input.focus();fro.removeRef(fro.id.input)}}>focus input</button>
+    <input type="text" ref={(input)=>fro.setRef(fro.id.input,input)}/>
+  </div>
+
+}
+```
+---

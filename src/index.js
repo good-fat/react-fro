@@ -86,6 +86,7 @@ const create = () => {
   const remove = (...args) => {
     args.map((str) => {
       fro.logic[str] = undefined
+      delete fro.logic[str]
       return
     })
     return fro
@@ -124,6 +125,7 @@ const create = () => {
   const removeId = (...args) => {
     args.map((str) => {
       fro.id[str] = undefined
+      delete fro.id[str]
     })
     return fro
   }
@@ -137,6 +139,7 @@ const create = () => {
   }
   const removeRef = (str) => {
     fro.ref[str] = undefined
+    delete fro.ref[str]
     return fro
   }
   const clearRef = () => {
