@@ -93,6 +93,12 @@ const create = () => {
   }
   const clear = () => {
     fro.logic = {}
+    fro.logic.apply = apply
+    fro.logic.ifonly = ifonly
+    fro.logic.ifelse = ifelse
+    fro.logic.ifall = ifall
+    fro.logic.endif = endif
+    fro.logic.repeat = repeat
     return fro
   }
   const set = (str, data) => {
@@ -147,19 +153,19 @@ const create = () => {
     return fro
   }
   const log = (str) => {
-    if(str === "id"){
+    if (str === "id") {
       console.info("id", fro.id)
     }
-    else if(str === "ref"){
+    else if (str === "ref") {
       console.info("ref", fro.ref)
     }
-    else if(str === "logic"){
+    else if (str === "logic") {
       console.info("logic", fro.logic)
     }
-    else if(str === "state"){
+    else if (str === "state") {
       console.info("state", fro.state)
     }
-    else{
+    else {
       console.info("id", fro.id)
       console.info("ref", fro.ref)
       console.info("logic", fro.logic)
