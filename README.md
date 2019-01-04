@@ -78,19 +78,19 @@ npm i react-fro --save
 - fro.logic.repeat(times)
 ---
 ### fro.state
-装载所有react渲染所需的数据，由fro.link(str, dataArray)方法初始化此对象内部的数据，由fro.logic.apply(...args)方法同步虚拟数据到此对象内部。
+##### 装载所有`react`渲染所需的数据，由`fro.link(str, dataArray)`方法初始化此对象内部的数据，由`fro.logic.apply(...args)`方法同步虚拟数据到此对象内部。
 ---
 ### fro.ref
-装载react特有的ref数据，此对象由fro.setRef(str, dom)，fro.removeRef(str)，fro.clearRef()方法管理。
+##### 装载`react`特有的`ref`数据，此对象由`fro.setRef(str, dom)`，`fro.removeRef(str)`，`fro.clearRef()`方法管理。
 ---
 ## 方法
 ---
 ### fro.add(func, otherName)
-给fro.logic对象添加一个自定义的业务函数。
+##### 给`fro.logic`对象添加一个自定义的业务函数。
 #### 参数
 - `func: Function` 要给fro.logic对象添加的自定义业务函数，此函数至少要有2个参数，id（等同于fro.id）和state（不同于fro.state，此参数是fro对象中全部虚拟数据的集合，而fro.state是所有react渲染的真实数据的集合），除此之外还可添加任意数量的其他参数。此函数的返回值有两种形式，数组或者对象。当返回值为数组时，数组的偶数序号的元素作为虚拟数据的key，奇数序号的元素作为虚拟数据的value，提供给fro的虚拟数据装载对象。当返回值为对象时，直接将此对象提供给fro的虚拟数据装载对象。
 - `otherName: String` 此参数可选。当此参数存在时会覆盖`func: Function`参数的函数名，如果`func: Function`是匿名函数，则此参数必须存在。
-#### 返回值：fro
+#### 返回值：`fro`
 #### 例子
 ```javascript
 import React from 'react';
