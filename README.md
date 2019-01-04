@@ -78,7 +78,7 @@ npm i react-fro --save
 - fro.logic.repeat(times)
 ---
 ### fro.state
-##### 装载所有`react`渲染所需的数据，由`fro.link(str, dataArray)`方法初始化此对象内部的数据，由`fro.logic.apply(...args)`方法同步虚拟数据到此对象内部。
+##### 装载所有`react`渲染所需的真实数据，由`fro.link(str, dataArray)`方法初始化此对象的数据，由`fro.logic.apply(...args)`方法同步虚拟数据到此对象。
 ---
 ### fro.ref
 ##### 装载`react`特有的`ref`数据，此对象由`fro.setRef(str, dom)`，`fro.removeRef(str)`，`fro.clearRef()`方法管理。
@@ -88,7 +88,7 @@ npm i react-fro --save
 ### fro.add(func, otherName)
 ##### 给`fro.logic`对象添加一个自定义的业务函数。
 #### 参数
-- `func: Function` 要给fro.logic对象添加的自定义业务函数，此函数至少要有2个参数，id（等同于fro.id）和state（不同于fro.state，此参数是fro对象中全部虚拟数据的集合，而fro.state是所有react渲染的真实数据的集合），除此之外还可添加任意数量的其他参数。此函数的返回值有两种形式，数组或者对象。当返回值为数组时，数组的偶数序号的元素作为虚拟数据的key，奇数序号的元素作为虚拟数据的value，提供给fro的虚拟数据装载对象。当返回值为对象时，直接将此对象提供给fro的虚拟数据装载对象。
+- `func: Function` 此函数是给fro.logic对象添加的自定义业务的函数。在fro内部有两个数据对象，分别是虚拟数据和真实数据。而此函数至少要有2个参数，id（等同于fro.id）和state（此参数是fro对象中的虚拟数据对象，而fro.state是真实数据对象），除此之外还可添加任意数量的其他参数。此函数的返回值有两种形式，数组或者对象。当返回值为数组时，数组的偶数序号的元素作为虚拟数据的key，奇数序号的元素作为虚拟数据的value，提供给fro的虚拟数据装载对象。当返回值为对象时，直接将此对象提供给fro的虚拟数据对象。
 - `otherName: String` 此参数可选。当此参数存在时会覆盖`func: Function`参数的函数名，如果`func: Function`是匿名函数，则此参数必须存在。
 #### 返回值：`fro`
 #### 例子
@@ -112,6 +112,36 @@ function App(props) {
       <p>{fro.state.count2}</p>
       <button onClick={()=>{fro.logic.setCount(101).apply()}}>setCount</button>
     </div>
+}
+```
+---
+### fro.remove(...args)
+##### 移除`fro.logic`对象中存在的`fro.add(func, otherName)`函数添加的自定义业务函数。
+#### 参数
+- `args: Array<String>` String类型，包含自定义业务函数的函数名的数组。
+#### 返回值：`fro`
+#### 例子
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.add(countPlus)
+    .add((id, state, count)=>["count2",count], "setCount")
+    .link("count1",useState(0)).link("count2", useState(0))
+    .remove("setCount")
+
+    function countPlus(id, state) {
+      return { count1: state.count1 + 1 }
+    }
+
+    return <div>
+      <p>{fro.state.count1}</p>
+      <button onClick={()=>{fro.logic.countPlus().apply()}}>countPlus</button>
+    </div>
+
+    //can't call setCount function because it does not exist in fro.logic object.
 }
 ```
 ---
