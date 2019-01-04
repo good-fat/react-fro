@@ -116,6 +116,12 @@ var create = function create() {
   };
   var clear = function clear() {
     fro.logic = {};
+    fro.logic.apply = apply;
+    fro.logic.ifonly = ifonly;
+    fro.logic.ifelse = ifelse;
+    fro.logic.ifall = ifall;
+    fro.logic.endif = endif;
+    fro.logic.repeat = repeat;
     return fro;
   };
   var set = function set(str, data) {
