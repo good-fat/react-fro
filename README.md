@@ -364,3 +364,77 @@ function App(props) {
 ---
 ### fro.log(str?)
 ##### 输出当前fro对象中的数据
+#### 参数
+- `str: String` 可选参数。其值为`id`、`ref`、`logic`、`state`、`virtualState`时，分别输出这五个对象的数据，其值为其他或者不存在时，会输出所有对象的数据。
+#### 返回值：`fro`
+#### 例子
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.setId("input").set("count",20).link("count2",useState(0))
+  .add((id,state)=>{},"testFunc")
+
+  return <div>
+    <button onClick={()=>{
+      if(fro.ref.hasOwnProperty(fro.id.input))
+        fro.ref.input.focus()
+      fro.log()
+    }}>focus input</button>
+    <input type="text" ref={(input)=>fro.setRef(fro.id.input,input)}/>
+  </div>
+
+}
+```
+---
+### fro.logic.apply(...args)
+##### 取得所有，上一次`apply`之后，虚拟数据对象和真实数据对象共有的变量，用虚拟数据覆盖真实数据，并触发`react`页面的重新渲染。
+#### 参数
+- `args: Array<String>` 可选参数，装载需要用虚拟数据覆盖到真实数据的数据变量名。当`args`的`length`为0时，将所有改变了的虚拟数据都覆盖到真实数据；其他情况下，只覆盖特定数据。
+#### 返回值：`fro.logic`
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.add((id, state)=>["count",state.count + 1], "setCount")
+  .link("count", useState(0))
+
+  return <div>
+    <p>{fro.state.count}</p>
+    <button onClick={()=>{fro.logic.setCount().apply()}}>plus 1</button>
+  </div>
+  //If the apply function is not called here, the page will not change.
+}
+```
+---
+### fro.logic.ifonly(condition)
+##### 逻辑函数。当参数`condition`为真时，此函数后面链式调用的下一个自定义函数会执行，否则就不执行。
+#### 参数
+- `condition: Boolean` 当`condition`为真，后面的下一个自定义链式调用函数会执行；当`condition`为假，后面的下一个自定义链式调用函数不会执行。
+#### 返回值：`fro.logic`
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.add((id, state)=>["count",state.count + 1], "setCount")
+  .link("count", useState(0))
+
+  return <div>
+    <p>{fro.state.count}</p>
+    <button onClick={()=>{fro.logic.ifonly(true).setCount().apply()}}>plus 1</button>
+    <button onClick={()=>{fro.logic.ifonly(false).setCount().apply()}}>no change</button>
+  </div>
+
+}
+```
+---
+### fro.logic.ifelse(condition)
+##### 逻辑函数。当参数`condition`为真时，此函数后面链式调用的下一个自定义函数会执行，此函数后面链式调用的第二个自定义函数不会执行；否则会进行相反的操作。
+#### 参数
+- `condition: Boolean` 
