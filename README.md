@@ -15,16 +15,16 @@ import { useState } from 'react';
 import fro from 'react-fro'
 function App(props) {
 
-  fro.setId("count")
+  fro.setId("count").setId("countPlus").setId("step")
+  .set(fro.id.step,1)
   .link(fro.id.count, useState(0))
-  .add(countPlus)
+  .add((id, state) => {
+      return { [id.count]: state.count + state.step }
+    },fro.id.countPlus)
 
-  function countPlus(id, state) {
-    return { [id.count]: state.count + 1 }
-  }
   return <div>
-    <p>每次点击按钮，数字就增加五--{fro.state.count}</p>
-    <button onClick={() => { fro.logic.repeat(5).countPlus().apply("count")}}>点击我</button>
+    <p>{fro.state.count}</p>
+    <button onClick={() => { fro.logic.repeat(5).countPlus().apply("count")}}>plus 5</button>
   </div >
 }
 export default App;
@@ -437,4 +437,73 @@ function App(props) {
 ### fro.logic.ifelse(condition)
 ##### 逻辑函数。当参数`condition`为真时，此函数后面链式调用的下一个自定义函数会执行，此函数后面链式调用的第二个自定义函数不会执行；否则会进行相反的操作。
 #### 参数
-- `condition: Boolean` 
+- `condition: Boolean` 当`condition`为真，后面的第一个自定义链式调用函数会执行，后面的第二个自定义链式调用函数不会执行；当`condition`为假，后面的第一个自定义链式调用函数不会执行，后面的第二个自定义链式调用函数会执行。整个逻辑函数运行步骤就像三元运算符。
+#### 返回值：`fro.logic`
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.add((id, state)=>["count",state.count + 1], "plusCount")
+  .add((id, state, num)=>["count",num], "setCount")
+  .link("count", useState(0))
+
+  return <div>
+    <p>{fro.state.count}</p>
+    <button onClick={()=>{fro.logic.ifelse(true).plusCount().setCount(10).apply()}}>plus 1</button>
+    <button onClick={()=>{fro.logic.ifelse(false).plusCount().setCount(10).apply()}}>set 10</button>
+  </div>
+
+}
+```
+---
+### fro.logic.ifall(condition) & fro.logic.endif()
+##### 成对出现的逻辑函数。当参数`condition`为真时，fro.logic.ifall(condition)之后，fro.logic.endif()之前的所有自定义链式调用函数都会执行；反之，则都不执行。
+#### 参数
+- `condition: Boolean` 当`condition`为真，fro.logic.ifall(condition)之后，fro.logic.endif()之前的所有自定义链式调用函数都会执行；当`condition`为假，fro.logic.ifall(condition)之后，fro.logic.endif()之前的所有自定义链式调用函数都不会执行。
+#### 返回值：`fro.logic`
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.add((id, state)=>["count",state.count + 1], "plusCount")
+  .add((id, state, num)=>["count",num], "setCount")
+  .link("count", useState(0))
+
+  return <div>
+    <p>{fro.state.count}</p>
+    <button onClick={()=>{fro.logic.ifall(true).plusCount().setCount(10).endif().apply()}}>plus 1 & set 10</button>
+    <button onClick={()=>{fro.logic.ifall(false).plusCount().setCount(10).endif().apply()}}>no change</button>
+  </div>
+
+}
+```
+
+### fro.logic.repeat(times)
+##### 逻辑函数。此函数之后出现的第一个将会执行的自定义链式调用函数会连续执行`times`次。注意，尽量不要与其他逻辑函数混用。
+#### 参数
+- `times: Number` 此函数后第一个将会执行的自定义链式调用函数重复执行的次数。
+#### 返回值：`fro.logic`
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.add((id, state)=>["count",state.count + 1], "plusCount")
+  .add((id, state, num)=>["count",num], "setCount")
+  .link("count", useState(0))
+
+  return <div>
+    <p>{fro.state.count}</p>
+    <button onClick={()=>{fro.logic.repeat(20).plusCount().apply()}}>plus 20</button>
+    <button onClick={()=>{fro.logic.ifelse(false).repeat(5).setCount(10).plusCount().apply()}}>plus 5</button>
+  </div>
+
+}
+```
+# 许可证
+MIT
