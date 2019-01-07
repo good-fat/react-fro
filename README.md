@@ -1,4 +1,5 @@
 # react-fro
+### [English document](/README_EN.md)
 一个有趣的`react`数据管理库，它使用虚拟数据技术和链式逻辑调用技术。
 ## `fro`的意思是`function return object`。
 - 使用虚拟数据进行计算，在恰当的时候应用到真实世界

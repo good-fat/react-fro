@@ -1,4 +1,5 @@
 # react-fro
+### [中文文档](/README.md)
 A interesting data management library of react that uses virtual data technology and chained logic calling technology.
 ## fro means function return object.
 - Use virtual data for calculations and apply to the real world at the right time
