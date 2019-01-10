@@ -1,15 +1,15 @@
 # react-fro
-### [English document](/README_EN.md)
-一个有趣的`react`数据管理库，它使用虚拟数据技术和链式逻辑调用技术。
-## `fro`的意思是`function return object`。
-- 使用虚拟数据进行计算，在恰当的时候应用到真实世界
-- 把逻辑封装为一个个函数，通过调用不同的函数组合来实现程序
-- 使用链式调用和巧妙的功能函数，让组合函数的过程变得美妙
-- 使用`log`函数随时查看程序运行数据
-- 依赖`Immutable.js`和`pmfl`
-- 目前只支持`React v16.7.0-alpha`
+### [中文文档](/README_CN.md)
+A interesting data management library of react that uses virtual data technology and chained logic calling technology.
+## fro means function return object.
+- Use virtual data for calculations and apply to the real world at the right time
+- Encapsulate the logic into functions, and implement the program by calling different combinations of functions
+- Make the process of combining functions wonderful with chained calls and clever function functions
+- View program run data at any time using the `log` function
+- Rely on `Immutable.js` and `pmfl`
+- Currently only supports `React v16.7.0-alpha`
 ---
-# 示例程序
+# Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -31,22 +31,22 @@ function App(props) {
 export default App;
 ```
 ---
-# 安装
-推荐使用yarn进行安装
+# Installation
+It is recommended to use yarn for installation.
 ```
 yarn add react-fro
 ```
-或者
+Or
 ```
 npm i react-fro --save
 ```
 ---
 # API
 ---
-## 对象
+## Object
 ### fro
-##### 装载所有方法和对象的对象。
-#### 包含
+##### An object that loads all methods and objects.
+#### Contain
 - fro.id
 - fro.logic
 - fro.state
@@ -65,11 +65,11 @@ npm i react-fro --save
 - fro.log(str?)
 ---
 ### fro.id
-##### 装载关键字数据的对象，`fro.setId(...args)`，`fro.removeId(...args)`，`fro.clearId()`方法可以改变此对象的值。
+##### The object that loads the keyword data, `fro.setId(...args)`, `fro.removeId(...args)`, `fro.clearId()`, can change the value of this object.
 ---
 ### fro.logic
-##### 装载所有`fro.add(func, otherName)`方法添加的逻辑函数，和`fro.logic`对象自带的逻辑功能函数，`fro.remove(...args)`，`fro.clear()`方法也可作用于此对象。
-#### 包含
+##### Load all the logical functions added by the `fro.add(func, otherName)` method, and the logical functions that come with the `fro.logic` object, `fro.remove(...args)`,`fro.clear() The `method can also be applied to this object.
+#### Contain
 - fro.logic.apply(...args)
 - fro.logic.ifonly(condition)
 - fro.logic.ifelse(condition)
@@ -78,20 +78,20 @@ npm i react-fro --save
 - fro.logic.repeat(times)
 ---
 ### fro.state
-##### 装载所有`react`渲染所需的真实数据，由`fro.link(str, dataArray)`方法初始化此对象的数据，由`fro.logic.apply(...args)`方法同步虚拟数据到此对象。
+##### Load all the real data needed for `react` rendering, initialize the data of this object by `fro.link(str, dataArray)` method, synchronize the virtual data to this by `fro.logic.apply(...args)` Object.
 ---
 ### fro.ref
-##### 装载`react`特有的`ref`数据，此对象由`fro.setRef(str, dom)`，`fro.removeRef(str)`，`fro.clearRef()`方法管理。
+##### Load `react` specific `ref` data, which is managed by `fro.setRef(str, dom)`, `fro.removeRef(str)`, `fro.clearRef()` methods.
 ---
-## 方法
+## Methods
 ---
 ### fro.add(func, otherName)
-##### 给`fro.logic`对象添加一个自定义的业务函数。
-#### 参数
-- `func: Function` 此函数是给`fro.logic`对象添加的自定义业务的函数。在`fro`内部有两个数据对象，分别是虚拟数据和真实数据。而此函数至少要有2个参数，`id`（等同于`fro.id`）和`state`（此参数是`fro`对象中的虚拟数据对象，而`fro.state`是真实数据对象），除此之外还可添加任意数量的其他参数。此函数的返回值有两种形式，数组或者对象。当返回值为数组时，数组的偶数序号的元素作为虚拟数据的key，奇数序号的元素作为虚拟数据的value，提供给fro的虚拟数据装载对象。当返回值为对象时，直接将此对象提供给`fro`的虚拟数据对象。
-- `otherName: String` 此参数可选。当此参数存在时会覆盖`func: Function`参数的函数名，如果`func: Function`是匿名函数，则此参数必须存在。
-#### 返回值：`fro`
-#### 例子
+##### Add a custom business function to the `fro.logic` object.
+#### Parameter
+- `func: Function` This function is a function of the custom business added to the `fro.logic` object. There are two data objects inside `fro`, which are virtual data and real data. And this function must have at least 2 parameters, `id` (equivalent to `fro.id`) and `state` (this parameter is a virtual data object in the `fro` object, and `fro.state` is a real data object. ), in addition to adding any number of other parameters. The return value of this function has two forms, an array or an object. When the return value is an array, the even-numbered element of the array is used as the key of the virtual data, and the odd-numbered element is used as the value of the virtual data, and is supplied to the virtual data loading object of the fro. When the return value is an object, this object is directly supplied to the virtual data object of `fro`.
+- `otherName: String` This parameter is optional. The function name of the `func: Function` parameter is overwritten when this parameter is present. If `func: Function` is an anonymous function, this parameter must exist.
+#### Return：`fro`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -117,11 +117,11 @@ function App(props) {
 ```
 ---
 ### fro.remove(...args)
-##### 移除`fro.logic`对象中存在的`fro.add(func, otherName)`函数添加的自定义业务函数。
-#### 参数
-- `args: Array<String>` String类型，包含自定义业务函数的函数名的数组。
-#### 返回值：`fro`
-#### 例子
+##### Remove the custom business function added by the `fro.add(func, otherName)` function that exists in the `fro.logic` object.
+#### Parameter
+- `args: Array<String>` String type, an array containing the function names of the custom business functions.
+#### Return：`fro`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -147,9 +147,9 @@ function App(props) {
 ```
 ---
 ### fro.clear()
-##### 清空`fro.logic`中所有的自定义业务函数（慎用）。
-#### 返回值：`fro`
-#### 例子
+##### Clear all custom business functions in `fro.logic` (use with caution).
+#### Return：`fro`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -169,12 +169,12 @@ function App(props) {
 ```
 ---
 ### fro.set(str, data)
-##### 设置'fro'中虚拟数据变量的初始值，注意，如果此变量已经存在于虚拟数据对象中了，那调用此函数无效（仅对不存在的数据有效）。
-#### 参数
-- `str: String` 要设置的虚拟数据变量的key。
-- `data: Any` 要设置的虚拟数据变量的value。
-#### 返回值：`fro`
-#### 例子
+##### Set the initial value of the virtual data variable in 'fro'. Note that if this variable already exists in the virtual data object, then calling this function is invalid (only valid for non-existing data).
+#### Parameter
+- `str: String` The key of the virtual data variable to be set.
+- `data: Any` The value of the virtual data variable to be set.
+#### Return：`fro`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -195,12 +195,12 @@ function App(props) {
 ```
 ---
 ### fro.link(str, dataArray)
-##### 双向绑定`react`渲染所需数据到`fro`中的真实数据对象，并把数据复制到`fro`中的虚拟数据对象。
-#### 参数
-- `str: String` 要绑定的数据变量名称（key）。
-- `dataArray: Array` `react`的API`useState()`函数的返回值，第一个数据是要绑定的值，第二个数据是可改变此值的函数。
-#### 返回值：`fro`
-#### 例子
+##### Two-way binding `react` renders the required data to the real data object in `fro` and copies the data to the virtual data object in `fro`.
+#### Parameter
+- `str: String` The name of the data variable to be bound (key).
+- `dataArray: Array The return value of the `react` API `useState()` function, the first data is the value to be bound, and the second data is a function that can change this value.
+#### Return：`fro`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -219,11 +219,11 @@ function App(props) {
 ```
 ---
 ### fro.setId(...args)
-##### 设置`fro.id`对象数据的函数。
+##### Set the function of the `fro.id` object data.
 #### 参数
-- `args: Array<String>` 包含要设置的id数据的数组。
-#### 返回值：`fro`
-#### 例子
+- `args: Array<String>` An array containing the id data to be set.
+#### Return：`fro`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -243,11 +243,11 @@ function App(props) {
 ```
 ---
 ### fro.removeId(...args)
-##### 移除`fro.id`对象数据的函数。
+##### A function that removes the `fro.id` object data.
 #### 参数
-- `args: Array<String>` 包含要移除的id数据的数组。
-#### 返回值：`fro`
-#### 例子
+- `args: Array<String>` An array containing the id data to be removed.
+#### Return：`fro`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -268,9 +268,9 @@ function App(props) {
 ```
 ---
 ### fro.clearId()
-##### 清空`fro.id`对象数据的函数（慎用）。
-#### 返回值：`fro`
-#### 例子
+##### Clear the function of the `fro.id` object data (use with caution).
+#### Return：`fro`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -291,12 +291,12 @@ function App(props) {
 ```
 ---
 ### fro.setRef(str, dom)
-##### 绑定`react`的`ref`数据到`fro.ref`对象。
-#### 参数
-- `str: String` 绑定`ref`的变量名。
-- `dom：Ref` `ref`数据。
-#### 返回值：`fro`
-#### 例子
+##### Bind the `ref` data of `react` to the `fro.ref` object.
+#### Parameter
+- `str: String` Bind the variable name of `ref`.
+- `dom：Ref` `ref` data.
+#### Return：`fro`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -314,11 +314,11 @@ function App(props) {
 ```
 ---
 ### fro.removeRef(str)
-##### 移除`fro.ref`对象中的数据。
-#### 参数
-- `str: String` 要移除的`ref`的变量名。
-#### 返回值：`fro`
-#### 例子
+##### Remove the data from the `fro.ref` object.
+#### Parameter
+- `str: String` The variable name of the `ref` to be removed.
+#### Return：`fro`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -340,9 +340,9 @@ function App(props) {
 ```
 ---
 ### fro.clearRef()
-##### 清空`fro.ref`对象中的数据（慎用）。
-#### 返回值：`fro`
-#### 例子
+##### Clear the data in the `fro.ref` object (use with caution).
+#### Return：`fro`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -364,11 +364,11 @@ function App(props) {
 ```
 ---
 ### fro.log(str?)
-##### 输出当前fro对象中的数据
-#### 参数
-- `str: String` 可选参数。其值为`id`、`ref`、`logic`、`state`、`virtualState`时，分别输出这五个对象的数据，其值为其他或者不存在时，会输出所有对象的数据。
-#### 返回值：`fro`
-#### 例子
+##### Output data in the current fro object.
+#### Parameter
+- `str: String` Optional parameters. When the values are `id`, `ref`, `logic`, `state`, `virtualState`, the data of these five objects are output separately. When the value is other or non-existent, the data of all objects is output.
+#### Return：`fro`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -391,10 +391,11 @@ function App(props) {
 ```
 ---
 ### fro.logic.apply(...args)
-##### 取得所有，上一次`apply`之后，虚拟数据对象和真实数据对象共有的变量，用虚拟数据覆盖真实数据，并触发`react`页面的重新渲染。
-#### 参数
-- `args: Array<String>` 可选参数，装载需要用虚拟数据覆盖到真实数据的数据变量名。当`args`的`length`为0时，将所有改变了的虚拟数据都覆盖到真实数据；其他情况下，只覆盖特定数据。
-#### 返回值：`fro.logic`
+##### Get all, after the last `apply`, the variables shared by the virtual data object and the real data object, overwrite the real data with the virtual data, and trigger the re-rendering of the `react` page.
+#### Parameter
+- `args: Array<String>` An optional parameter that loads the name of the data variable that needs to be overwritten with virtual data to the real data. When `lengths` of `args` is 0, all changed virtual data is overwritten to real data; in other cases, only specific data is overwritten.
+#### Return：`fro.logic`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -413,10 +414,11 @@ function App(props) {
 ```
 ---
 ### fro.logic.ifonly(condition)
-##### 逻辑函数。当参数`condition`为真时，此函数后面链式调用的下一个自定义函数会执行，否则就不执行。
-#### 参数
-- `condition: Boolean` 当`condition`为真，后面的下一个自定义链式调用函数会执行；当`condition`为假，后面的下一个自定义链式调用函数不会执行。
-#### 返回值：`fro.logic`
+##### Logical function. When the parameter `condition` is true, the next custom function called by the chain after this function will be executed, otherwise it will not be executed.
+#### Parameter
+- `condition: Boolean` When `condition` is true, the next custom chained call function will be executed later; when `condition` is false, the next custom chained call function will not be executed.
+#### Return：`fro.logic`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -436,10 +438,11 @@ function App(props) {
 ```
 ---
 ### fro.logic.ifelse(condition)
-##### 逻辑函数。当参数`condition`为真时，此函数后面链式调用的下一个自定义函数会执行，此函数后面链式调用的第二个自定义函数不会执行；否则会进行相反的操作。
+##### Logical function. When the parameter `condition` is true, the next custom function called by the chain after this function will be executed. The second custom function of the chain call after this function will not be executed; otherwise, the opposite operation will be performed.
 #### 参数
-- `condition: Boolean` 当`condition`为真，后面的第一个自定义链式调用函数会执行，后面的第二个自定义链式调用函数不会执行；当`condition`为假，后面的第一个自定义链式调用函数不会执行，后面的第二个自定义链式调用函数会执行。整个逻辑函数运行步骤就像三元运算符。
-#### 返回值：`fro.logic`
+- `condition: Boolean` When `condition` is true, the first custom chained call function will be executed, and the second custom chained call function will not be executed; when `condition` is false, the first custom is followed. The chained calling function will not be executed, and the second custom chained calling function will be executed later. The entire logic function runs like a ternary operator.
+#### Return：`fro.logic`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -460,10 +463,11 @@ function App(props) {
 ```
 ---
 ### fro.logic.ifall(condition) & fro.logic.endif()
-##### 成对出现的逻辑函数。当参数`condition`为真时，fro.logic.ifall(condition)之后，fro.logic.endif()之前的所有自定义链式调用函数都会执行；反之，则都不执行。
-#### 参数
-- `condition: Boolean` 当`condition`为真，fro.logic.ifall(condition)之后，fro.logic.endif()之前的所有自定义链式调用函数都会执行；当`condition`为假，fro.logic.ifall(condition)之后，fro.logic.endif()之前的所有自定义链式调用函数都不会执行。
-#### 返回值：`fro.logic`
+##### Logical functions that appear in pairs. When the parameter `condition` is true, after fro.logic.ifall(condition), all custom chained calling functions before fro.logic.endif() are executed; otherwise, they are not executed.
+#### Parameter
+- `condition: Boolean` When `condition` is true, after fro.logic.ifall(condition), all custom chained calling functions before fro.logic.endif() will be executed; when `condition` is false, fro.logic.ifall(condition After that, all custom chained calling functions before fro.logic.endif() will not be executed.
+#### Return：`fro.logic`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -484,10 +488,11 @@ function App(props) {
 ```
 
 ### fro.logic.repeat(times)
-##### 逻辑函数。此函数之后出现的第一个将会执行的自定义链式调用函数会连续执行`times`次。注意，尽量不要与其他逻辑函数混用。
-#### 参数
-- `times: Number` 此函数后第一个将会执行的自定义链式调用函数重复执行的次数。
-#### 返回值：`fro.logic`
+##### Logical function. The first custom chained call function that will be executed after this function will execute `times` times consecutively. Note that try not to mix with other logic functions.
+#### Parameter
+- `times: Number` The number of times the custom chained call function that will be executed after this function is executed repeatedly.
+#### Return：`fro.logic`
+#### Example
 ```javascript
 import React from 'react';
 import { useState } from 'react';
@@ -506,5 +511,5 @@ function App(props) {
 
 }
 ```
-# 许可证
+# License
 MIT
