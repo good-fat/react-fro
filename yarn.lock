@@ -7,9 +7,9 @@ immutable@^4.0.0-rc.12:
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.0.0-rc.12.tgz#ca59a7e4c19ae8d9bf74a97bdf0f6e2f2a5d0217"
   integrity sha512-0M2XxkZLx/mi3t8NVwIm1g8nHoEmM9p9UBl/G9k4+hm0kBgOVdMV/B3CY5dQ8qG8qc80NN4gDV4HQv6FTJ5q7A==
 
-pmfl@^0.5.7:
-  version "0.5.7"
-  resolved "https://registry.yarnpkg.com/pmfl/-/pmfl-0.5.7.tgz#0464b69193fd5272dda72ae7566756c69efb4dcd"
-  integrity sha512-dLjCYlZAjjQhj4SiBQPhCU4HNUjqo4hJFPxO4zmiLAu0IFhAN/EMGY+sKZrLCfgiFpL9OrIOZHQG0jeYEzOJbg==
+pmfl@^0.5.8:
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/pmfl/-/pmfl-0.5.8.tgz#3962f52dbf1621235fa267faafcee03451d5db04"
+  integrity sha512-2B63Belw9jMbG+95WCci/J1M9qglLwO6uz0n41gWboNdSXoBMzOkov4JHXg9SJ6JKfWDHk66E8i8o87M+zaVUQ==
   dependencies:
     immutable "^4.0.0-rc.12"
