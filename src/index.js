@@ -1,8 +1,6 @@
 import Immutable from 'immutable'
-import { pmfl, type } from 'pmfl'
-
+import { pmfl, type, dataSet } from 'pmfl'
 const create = () => {
-
   let fro = {}
   fro.id = {}
   fro.logic = {}
@@ -85,10 +83,15 @@ const create = () => {
   }
   const remove = (...args) => {
     args.map((str) => {
-      fro.logic[str] = undefined
-      delete fro.logic[str]
+      pmfl.make2().add([dataSet("apply", "ifonly", "ifelse", "ifall", "endif", "repeat")], () => {
+        console.info("Cannot remove system logic function")
+      }).neither(() => {
+        fro.logic[str] = undefined
+        delete fro.logic[str]
+      }).match([str])
       return
     })
+
     return fro
   }
   const clear = () => {

@@ -114,6 +114,7 @@ function App(props) {
       <button onClick={()=>{fro.logic.setCount(101).apply()}}>setCount</button>
     </div>
 }
+export default App;
 ```
 ---
 ### fro.remove(...args)
@@ -144,6 +145,7 @@ function App(props) {
 
     //can't call setCount function because it does not exist in fro.logic object.
 }
+export default App;
 ```
 ---
 ### fro.clear()
@@ -166,6 +168,7 @@ function App(props) {
 
     //can't call setCount function because it does not exist in fro.logic object.
 }
+export default App;
 ```
 ---
 ### fro.set(str, data)
@@ -192,6 +195,7 @@ function App(props) {
 
     //can't call setCount function because it does not exist in fro.logic object.
 }
+export default App;
 ```
 ---
 ### fro.link(str, dataArray)
@@ -216,6 +220,7 @@ function App(props) {
   </div>
 
 }
+export default App;
 ```
 ---
 ### fro.setId(...args)
@@ -240,6 +245,7 @@ function App(props) {
   </div>
 
 }
+export default App;
 ```
 ---
 ### fro.removeId(...args)
@@ -265,6 +271,7 @@ function App(props) {
   </div>
 
 }
+export default App;
 ```
 ---
 ### fro.clearId()
@@ -288,6 +295,7 @@ function App(props) {
   </div>
 
 }
+export default App;
 ```
 ---
 ### fro.setRef(str, dom)
@@ -311,6 +319,7 @@ function App(props) {
   </div>
 
 }
+export default App;
 ```
 ---
 ### fro.removeRef(str)
@@ -337,6 +346,7 @@ function App(props) {
   </div>
 
 }
+export default App;
 ```
 ---
 ### fro.clearRef()
@@ -361,6 +371,7 @@ function App(props) {
   </div>
 
 }
+export default App;
 ```
 ---
 ### fro.log(str?)
@@ -388,6 +399,7 @@ function App(props) {
   </div>
 
 }
+export default App;
 ```
 ---
 ### fro.logic.apply(...args)
@@ -411,6 +423,7 @@ function App(props) {
   </div>
   //If the apply function is not called here, the page will not change.
 }
+export default App;
 ```
 ---
 ### fro.logic.ifonly(condition)
@@ -435,6 +448,7 @@ function App(props) {
   </div>
 
 }
+export default App;
 ```
 ---
 ### fro.logic.ifelse(condition)
@@ -460,6 +474,7 @@ function App(props) {
   </div>
 
 }
+export default App;
 ```
 ---
 ### fro.logic.ifall(condition) & fro.logic.endif()
@@ -485,6 +500,7 @@ function App(props) {
   </div>
 
 }
+export default App;
 ```
 
 ### fro.logic.repeat(times)
@@ -510,6 +526,7 @@ function App(props) {
   </div>
 
 }
+export default App;
 ```
 # License
 MIT

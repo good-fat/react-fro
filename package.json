@@ -1,6 +1,6 @@
 {
   "name": "react-fro",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "main": "dist/index.js",
   "description": "A data management library of react that uses virtual data technology and chained logic calling technology.",
   "repository": "https://github.com/good-fat/react-fro.git",
@@ -8,6 +8,6 @@
   "license": "MIT",
   "dependencies": {
     "immutable": "^4.0.0-rc.12",
-    "pmfl": "^0.5.6"
+    "pmfl": "^0.5.8"
   }
 }

@@ -15,7 +15,6 @@ var _pmfl = require('pmfl');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var create = function create() {
-
   var fro = {};
   fro.id = {};
   fro.logic = {};
@@ -108,10 +107,15 @@ var create = function create() {
     }
 
     args.map(function(str) {
-      fro.logic[str] = undefined;
-      delete fro.logic[str];
+      _pmfl.pmfl.make2().add([(0, _pmfl.dataSet)("apply", "ifonly", "ifelse", "ifall", "endif", "repeat")], function() {
+        console.info("Cannot remove system logic function");
+      }).neither(function() {
+        fro.logic[str] = undefined;
+        delete fro.logic[str];
+      }).match([str]);
       return;
     });
+
     return fro;
   };
   var clear = function clear() {
@@ -256,6 +260,7 @@ var create = function create() {
     if (_pmfl.type.of(times) === _pmfl.type.number) repeatCount = times;
     return fro.logic;
   };
+
   fro.add = add;
   fro.remove = remove;
   fro.clear = clear;
@@ -274,6 +279,7 @@ var create = function create() {
   fro.logic.ifall = ifall;
   fro.logic.endif = endif;
   fro.logic.repeat = repeat;
+
   return fro;
 };
 var fro = create();
