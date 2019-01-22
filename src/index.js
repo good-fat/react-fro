@@ -1,265 +1,268 @@
 import Immutable from 'immutable'
-import { pmfl, type, dataSet } from 'pmfl'
+import { pmfl, type, data_set } from 'pmfl'
 const create = () => {
   let fro = {}
-  fro.id = {}
+  let changed_data = Immutable.List([])
+  let virtual_data = Immutable.Map({})
+  let real_data = Immutable.Map({})
+  let real_data_set = Immutable.Map({})
+  let constant_data = Immutable.Map({})
+  let ref_data = Immutable.Map({})
+  let virtual_state = {}
+  fro.constant = {}
   fro.logic = {}
+  fro.effect = {}
   fro.state = {}
   fro.ref = {}
-  let changeId = Immutable.List([])
-  let virtualData = Immutable.Map({})
-  let realData = Immutable.Map({})
-  let realDataFunc = Immutable.Map({})
-  let logicList = Immutable.List([])
-  let repeatCount = 1
-  const add = (func, otherName) => {
-    const tempFunc = (...args) => {
-      if (logicList.size !== 0) {
-        let condition = logicList.first()
-        logicList = logicList.shift()
-        if (condition === false) {
-          return fro.logic
+  const add = (func, other_name) => {
+    const temp_func = (data, condition, times) => {
+
+      let run_flag
+      pmfl.make2().add([type.undefined], () => {
+        run_flag = true
+      }).add([type.function], (match_data) => {
+        if (match_data(fro.constant, virtual_state)) {
+          run_flag = true
         }
+        else {
+          run_flag = false
+        }
+      }).neither((match_data) => {
+        if (match_data) {
+          run_flag = true
+        }
+        else {
+          run_flag = false
+        }
+      }).match([type.of(condition)], condition)
+
+      if (!run_flag) {
+        return fro.logic
       }
-      if (repeatCount <= 1) {
-        repeatCount = 1
-      }
-      else {
-        let tempCount = repeatCount
-        repeatCount = 1
-        for (let i = 0; i <= tempCount - 2; i++) {
-          let result = func(fro.id, virtualData.toJS(), ...args)
-          pmfl.make2().add([type.array], (data) => {
-            for (let i = 0; i < data.length; i += 2) {
-              if (data[i] !== undefined && data[i + 1] !== undefined) {
-                virtualData = virtualData.set(data[i], data[i + 1])
-                if (!changeId.includes(data[i]))
-                  changeId = changeId.push(data[i])
+
+      let loop_times
+      pmfl.make2().add([type.number], (match_data) => {
+        const temp_num = Math.floor(match_data)
+        if (temp_num < 1) {
+          loop_times = 1
+        }
+        else {
+          loop_times = temp_num
+        }
+      }).neither(() => {
+        loop_times = 1
+      }).match([type.of(times)], times)
+
+      for (let i = 0; i < loop_times; i++) {
+        let result = func(data, fro.constant, virtual_state)
+        pmfl.make2().add([type.array], (match_data) => {
+            for (let i = 0; i < match_data.length; i += 2) {
+              if (match_data[i] !== undefined && match_data[i + 1] !== undefined) {
+                virtual_data = virtual_data.set(match_data[i], match_data[i + 1])
+                virtual_state = virtual_data.toJS()
+                if (!changed_data.includes(match_data[i]))
+                  changed_data = changed_data.push(match_data[i])
               }
             }
-          }).add([type.object], (data) => {
-            let changeData = Immutable.Map(data)
-            virtualData = virtualData.mergeDeep(changeData)
-            changeData.map((value, key) => {
-              if (!changeId.includes(key))
-                changeId = changeId.push(key)
+          }).add([type.object], (match_data) => {
+            let temp_data = Immutable.Map(match_data)
+            virtual_data = virtual_data.mergeDeep(temp_data)
+            virtual_state = virtual_data.toJS()
+            temp_data.map((value, key) => {
+              if (!changed_data.includes(key))
+                changed_data = changed_data.push(key)
               return value
             })
           }).match([type.of(result)], result)
-        }
       }
-      let result = func(fro.id, virtualData.toJS(), ...args)
-      pmfl.make2().add([type.array], (data) => {
-        for (let i = 0; i < data.length; i += 2) {
-          if (data[i] !== undefined && data[i + 1] !== undefined) {
-            virtualData = virtualData.set(data[i], data[i + 1])
-            if (!changeId.includes(data[i]))
-              changeId = changeId.push(data[i])
-          }
-        }
-      }).add([type.object], (data) => {
-        let changeData = Immutable.Map(data)
-        virtualData = virtualData.mergeDeep(changeData)
-        changeData.map((value, key) => {
-          if (!changeId.includes(key))
-            changeId = changeId.push(key)
-          return value
-        })
-      }).match([type.of(result)], result)
       return fro.logic
     }
-    //undefined
-    pmfl.make2().add((data) => {
-      if (data[0] === undefined)
-        return true
-    }, (data) => {
-      let [logic, func, , tempFunc] = data
-      logic[func.name] = tempFunc
-    }).neither((data) => {
-      let [logic, , otherName, tempFunc] = data
-      logic[otherName] = tempFunc
-    }).match([otherName], [fro.logic, func, otherName, tempFunc])
-    return fro
-  }
-  const remove = (...args) => {
-    args.map((str) => {
-      pmfl.make2().add([dataSet("apply", "ifonly", "ifelse", "ifall", "endif", "repeat")], () => {
-        console.info("Cannot remove system logic function")
-      }).neither(() => {
-        fro.logic[str] = undefined
-        delete fro.logic[str]
-      }).match([str])
-      return
-    })
+
+    pmfl.make2().add((condition_data) => {
+      if (condition_data[0] === undefined)
+      return true
+    }, (match_data) => {
+      let [logic, func, , temp_func] = match_data
+      logic[func.name] = temp_func
+    }).neither((match_data) => {
+      let [logic, , other_name, temp_func] = match_data
+      logic[other_name] = temp_func
+    }).match([other_name], [fro.logic, func, other_name, temp_func])
 
     return fro
   }
-  const clear = () => {
-    fro.logic = {}
-    fro.logic.apply = apply
-    fro.logic.ifonly = ifonly
-    fro.logic.ifelse = ifelse
-    fro.logic.ifall = ifall
-    fro.logic.endif = endif
-    fro.logic.repeat = repeat
+
+  const affect = (func, other_name) => {
+    const temp_func = (data, condition, times) => {
+
+      let run_flag
+      pmfl.make2().add([type.undefined], () => {
+        run_flag = true
+      }).add([type.function], (match_data) => {
+        if (match_data(fro.constant, virtual_state)) {
+          run_flag = true
+        }
+        else {
+          run_flag = false
+        }
+      }).neither((match_data) => {
+        if (match_data) {
+          run_flag = true
+        }
+        else {
+          run_flag = false
+        }
+      }).match([type.of(condition)], condition)
+
+      if (!run_flag) {
+        return fro.effect
+      }
+
+      let loop_times
+      pmfl.make2().add([type.number], (match_data) => {
+        const temp_num = Math.floor(match_data)
+        if (temp_num < 1) {
+          loop_times = 1
+        }
+        else {
+          loop_times = temp_num
+        }
+      }).neither(() => {
+        loop_times = 1
+      }).match([type.of(times)], times)
+
+      for(let i=0; i<loop_times; i++) {
+        func(data, fro.constant, virtual_state)
+      }
+
+      return fro.effect
+    }
+
+    pmfl.make2().add((condition_data) => {
+      if (condition_data[0] === undefined)
+      return true
+    }, (match_data) => {
+      let [effect, func, , temp_func] = match_data
+      effect[func.name] = temp_func
+    }).neither((match_data) => {
+      let [effect, , other_name, temp_func] = match_data
+      effect[other_name] = temp_func
+    }).match([other_name], [fro.effect, func, other_name, temp_func])
+
     return fro
   }
-  const set = (str, data) => {
-    pmfl.make2().add([false], (data) => {
-      let [str1, data1] = data
-      virtualData = virtualData.set(str1, data1)
-    }).match([virtualData.has(str)], [str, data])
+
+  const involve = (str, data_array) => {
+    virtual_data = virtual_data.set(str, data_array[0])
+    real_data = real_data.set(str, data_array[0])
+    real_data_set = real_data_set.set(str, data_array[1])
+    fro.state = real_data.toJS()
+    virtual_state = virtual_data.toJS()
     return fro
   }
-  const link = (str, dataArray) => {
-    virtualData = virtualData.set(str, dataArray[0])
-    realData = realData.set(str, dataArray[0])
-    realDataFunc = realDataFunc.set(str, dataArray[1])
-    fro.state = realData.toJS()
+
+  const set = (str, set_data) => {
+    pmfl.make2().add([false], (match_data) => {
+      let [other_str, other_data] = match_data
+      virtual_data = virtual_data.set(other_str, other_data)
+    }).match([virtual_data.has(str)], [str, set_data])
+    virtual_state = virtual_data.toJS()
     return fro
   }
-  // const linkClass = (str, data, func) => {
-  //   virtualData = virtualData.set(str, data)
-  //   realData = realData.set(str, data)
-  //   realDataFunc = realDataFunc.set(str, func)
-  //   fro.state = realData.toJS()
-  //   return fro
-  // }
-  const setId = (...args) => {
-    args.map((str) => {
-      fro.id[str] = str
-    })
+
+  const delimit = (str, const_data) => {
+    pmfl.make2().add([false], (match_data) => {
+      let [other_str, other_data] = match_data
+      if(other_data !== undefined) {
+        constant_data = constant_data.set(other_str, other_data)
+      }
+      else {
+        constant_data = constant_data.set(other_str, other_str)
+      }
+    }).match([constant_data.has(str)], [str, const_data])
+    fro.constant = constant_data.toJS()
+
     return fro
   }
-  const removeId = (...args) => {
-    args.map((str) => {
-      fro.id[str] = undefined
-      delete fro.id[str]
-    })
+
+  const link = (str, dom) => {
+    ref_data = ref_data.set(str, dom)
+    fro.ref = ref_data.toJS()
+
     return fro
   }
-  const clearId = () => {
-    fro.id = {}
-    return fro
-  }
-  const setRef = (str, dom) => {
-    fro.ref[str] = dom
-    return fro
-  }
-  const removeRef = (str) => {
-    fro.ref[str] = undefined
-    delete fro.ref[str]
-    return fro
-  }
-  const clearRef = () => {
-    fro.ref = {}
-    return fro
-  }
+
   const log = (str) => {
-    if (str === "id") {
-      console.info("id", fro.id)
+    if (str === "constant") {
+      console.info("constant", constant_data.toJS())
     }
     else if (str === "ref") {
-      console.info("ref", fro.ref)
+      console.info("ref", ref_data.toJS())
     }
     else if (str === "logic") {
       console.info("logic", fro.logic)
     }
-    else if (str === "state") {
-      console.info("state", fro.state)
+    else if (str === "effect") {
+      console.info("effect", fro.effect)
     }
-    else if (str === "virtualState") {
-      console.info("virtualState", virtualData.toJS())
+    else if (str === "state") {
+      console.info("state", real_data.toJS())
+    }
+    else if (str === "virtual_state") {
+      console.info("virtual_state", virtual_data.toJS())
     }
     else {
-      console.info("id", fro.id)
-      console.info("ref", fro.ref)
+      console.info("constant", constant_data.toJS())
+      console.info("ref", ref_data.toJS())
       console.info("logic", fro.logic)
-      console.info("state", fro.state)
-      console.info("virtualState", virtualData.toJS())
+      console.info("effect", fro.effect)
+      console.info("state", real_data.toJS())
+      console.info("virtual_state", virtual_data.toJS())
     }
+
     return fro
   }
+
   const apply = (...args) => {
     pmfl.make2().add([0], () => {
-      changeId.map((value) => {
-        if (realDataFunc.has(value)) {
-          realDataFunc.get(value)(virtualData.get(value))
+      changed_data.map((value) => {
+        if (real_data_set.has(value)) {
+          real_data_set.get(value)(virtual_data.get(value))
         }
       })
-    }).neither((data) => {
-      data.map((arg) => {
-        return realDataFunc.has(arg) ? realDataFunc.get(arg)(virtualData.get(arg)) : {}
+      changed_data = Immutable.List([])
+    }).neither((match_data) => {
+      match_data.map((arg) => {
+        if (changed_data.includes(arg) && real_data_set.has(arg)){
+          real_data_set.get(arg)(virtual_data.get(arg))
+          changed_data = changed_data.delete(changed_data.findIndex((value)=>value===arg))
+        }
+        else {
+          console.warn("Invalid variable name: ", arg)
+        }
+        return
       })
     }).match([args.length], args)
-    fro.state = realData.toJS()
-    return fro.logic
-  }
-  const ifonly = (condition) => {
-    if (condition) {
-      logicList = logicList.push(true)
-    }
-    else {
-      logicList = logicList.push(false)
-    }
-    return fro.logic
-  }
-  const ifelse = (condition) => {
-    if (condition) {
-      logicList = logicList.push(true, false)
-    }
-    else {
-      logicList = logicList.push(false, true)
-    }
-    return fro.logic
-  }
-  const ifall = (condition) => {
-    let tempArray = []
-    if (condition) {
-      for (let i = 0; i < 1024; i++) {
-        tempArray.push(true)
-      }
-    }
-    else {
-      for (let i = 0; i < 1024; i++) {
-        tempArray.push(false)
-      }
-    }
-    logicList = Immutable.List(tempArray)
-    return fro.logic
-  }
-  const endif = () => {
-    logicList = Immutable.List([])
-    return fro.logic
-  }
-  const repeat = (times) => {
-    if (type.of(times) === type.number)
-      repeatCount = times
+
+    fro.state = real_data.toJS()
     return fro.logic
   }
 
+  const back = () => fro
+
   fro.add = add
-  fro.remove = remove
-  fro.clear = clear
+  fro.affect = affect
   fro.set = set
+  fro.involve = involve
+  fro.delimit = delimit
   fro.link = link
-  // fro.linkClass = linkClass
-  fro.setId = setId
-  fro.removeId = removeId
-  fro.clearId = clearId
-  fro.setRef = setRef
-  fro.removeRef = removeRef
-  fro.clearRef = clearRef
   fro.log = log
+  fro.create = create
   fro.logic.apply = apply
-  fro.logic.ifonly = ifonly
-  fro.logic.ifelse = ifelse
-  fro.logic.ifall = ifall
-  fro.logic.endif = endif
-  fro.logic.repeat = repeat
+  fro.logic.back = back
+  fro.effect.back = back
 
   return fro
 }
-let fro = create()
-fro.create = create
+const fro = create()
 export default fro
