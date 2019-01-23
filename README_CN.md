@@ -110,7 +110,7 @@ function App(props) {
 
     return <div>
       <p>{fro.state.count1}</p>
-      <button onClick={()=>{fro.logic.count_plus(null,true,5).apply()}}>count_plus</button>
+      <button onClick={()=>{fro.logic.set_count(10).count_plus(null,true,5).apply()}}>count2 to be 10 and count1 plus 5</button>
       <p>{fro.state.count2}</p>
       <button onClick={()=>{fro.logic.set_count(101).apply()}}>set_count</button>
     </div>
