@@ -58,6 +58,8 @@ npm i react-fro --save
 - fro.set(str, set_data)
 - fro.delimit(str, const_data)
 - fro.link(str, dom)
+- fro.mark(str)
+- fro.uninstall(str)
 - fro.log(str?)
 ---
 ### fro.constant
@@ -258,10 +260,53 @@ function App(props) {
 export default App;
 ```
 ---
+### fro.mark(str)
+##### Marks the execution of a set of `fro`-owned functions to prevent memory leaks when the `react` component is destroyed.
+#### parameter
+- `str: String` The name to be tagged is generally the same as the component name.
+#### return：`marked_fro`
+---
+### fro.uninstall(str)
+##### Destroys all data marked by the `fro.mark(str)` function to prevent memory leaks when the `react` component is destroyed.
+#### parameter
+- `str: String`The name of the data group to be destroyed, generally the same as the component name.
+#### return：`fro`
+#### example
+```javascript
+import React from 'react';
+import { useState, useEffect } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.mark("App").add(count_plus)
+    .add((data, constant, state)=>["count2",data], "set_count")
+    .involve("count1",useState(0)).involve("count2", useState(0))
+
+    function count_plus(data, constant, state) {
+      return { count1: state.count1 + 1 }
+    }
+
+    useEffect(() => {
+      return function clean_up() {
+        fro.uninstall("App")
+      }
+    })
+
+    return <div>
+      <p>{fro.state.count1}</p>
+      <button onClick={()=>{fro.logic.set_count(10).count_plus(null,true,5).apply()}}>count2 to be 10 and count1 plus 5</button>
+      <p>{fro.state.count2}</p>
+      <button onClick={()=>{fro.logic.set_count(101).apply()}}>set_count</button>
+    </div>
+
+}
+export default App;
+```
+---
 ### fro.log(str?)
 ##### Output the data in the current fro object.
 #### parameter
-- `str: String` Optional parameters. When the values are `constant`, `ref`, `logic`, `effect`, `state`, `virtual_state`, the data of these six objects are output separately. When the value is other or non-existent, all objects are output. The data.
+- `str: String` Optional parameters. When the values are `constant`, `ref`, `logic`, `effect`, `state`, `virtual_state`, `marked_data`, the data of these seven objects are output separately. When the value is other or non-existent, all objects are output. The data.
 #### return：`fro`
 #### example
 ```javascript

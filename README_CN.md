@@ -58,6 +58,8 @@ npm i react-fro --save
 - fro.set(str, set_data)
 - fro.delimit(str, const_data)
 - fro.link(str, dom)
+- fro.mark(str)
+- fro.uninstall(str)
 - fro.log(str?)
 ---
 ### fro.constant
@@ -258,10 +260,53 @@ function App(props) {
 export default App;
 ```
 ---
+### fro.mark(str)
+##### 标记一组`fro`所属函数的执行，用于防止`react`组件销毁时造成内存泄漏。
+#### 参数
+- `str: String` 要标记的名称，一般与组件名相同。
+#### 返回值：`marked_fro`
+---
+### fro.uninstall(str)
+##### 销毁所有被`fro.mark(str)`函数标记的数据，用于防止`react`组件销毁时造成内存泄漏。
+#### 参数
+- `str: String` 要销毁的数据组名称，一般与组件名相同。
+#### 返回值：`fro`
+#### 例子
+```javascript
+import React from 'react';
+import { useState, useEffect } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.mark("App").add(count_plus)
+    .add((data, constant, state)=>["count2",data], "set_count")
+    .involve("count1",useState(0)).involve("count2", useState(0))
+
+    function count_plus(data, constant, state) {
+      return { count1: state.count1 + 1 }
+    }
+
+    useEffect(() => {
+      return function clean_up() {
+        fro.uninstall("App")
+      }
+    })
+
+    return <div>
+      <p>{fro.state.count1}</p>
+      <button onClick={()=>{fro.logic.set_count(10).count_plus(null,true,5).apply()}}>count2 to be 10 and count1 plus 5</button>
+      <p>{fro.state.count2}</p>
+      <button onClick={()=>{fro.logic.set_count(101).apply()}}>set_count</button>
+    </div>
+
+}
+export default App;
+```
+---
 ### fro.log(str?)
 ##### 输出当前fro对象中的数据。
 #### 参数
-- `str: String` 可选参数。其值为`constant`、`ref`、`logic`、`effect`、`state`、`virtual_state`时，分别输出这六个对象的数据，其值为其他或者不存在时，会输出所有对象的数据。
+- `str: String` 可选参数。其值为`constant`、`ref`、`logic`、`effect`、`state`、`virtual_state`、`marked_data`时，分别输出这七个对象的数据，其值为其他或者不存在时，会输出所有对象的数据。
 #### 返回值：`fro`
 #### 例子
 ```javascript
