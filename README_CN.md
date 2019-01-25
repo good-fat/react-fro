@@ -69,7 +69,7 @@ npm i react-fro --save
 ##### 逻辑函数对象，调用`fro.add(func, other_name)`方法可向此对象添加逻辑函数。
 #### 包含
 - fro.logic.apply(...args)
-- fro.logic.bakc()
+- fro.logic.back()
 ---
 ### fro.state
 ##### 装载所有`react`渲染所需的真实数据，由`fro.involve(str, data_array)`方法初始化此对象的数据，由`fro.logic.apply(...args)`方法同步虚拟数据到此对象。
@@ -77,7 +77,7 @@ npm i react-fro --save
 ### fro.effect
 ##### 副作用函数对象，调用`fro.affect(func, other_name)`方法可向此对象添加包含副作用的函数。
 #### 包含
-- fro.effect.bakc()
+- fro.effect.back()
 ---
 ### fro.ref
 ##### 装载`react`特有的`ref`数据，此对象由`fro.link(str, dom)`方法初始化。

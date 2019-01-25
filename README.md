@@ -69,7 +69,7 @@ npm i react-fro --save
 ##### A logical function object that calls the `fro.add(func, other_name)` method to add a logical function to this object.
 #### contain
 - fro.logic.apply(...args)
-- fro.logic.bakc()
+- fro.logic.back()
 ---
 ### fro.state
 ##### Load all the real data needed for `react` rendering, initialize the data of this object by `fro.involve(str, data_array)` method, and synchronize the virtual data by `fro.logic.apply(...args)` method. Object.
@@ -77,7 +77,7 @@ npm i react-fro --save
 ### fro.effect
 ##### A side-effect function object that calls the `fro.affect(func, other_name)` method to add a function containing side effects to this object.
 #### contain
-- fro.effect.bakc()
+- fro.effect.back()
 ---
 ### fro.ref
 ##### Load `react` specific `ref` data, which is initialized by the `fro.link(str, dom)` method.
