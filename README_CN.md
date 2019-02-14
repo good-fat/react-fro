@@ -334,7 +334,7 @@ export default App;
 ##### 取得所有，上一次`apply`之后，虚拟数据对象和真实数据对象共有的变量，用虚拟数据覆盖真实数据，并触发`react`页面的重新渲染。
 #### 参数
 - `condition?: Function/Boolean` 可选参数，用来决定此函数是否真正执行。当此参数的类型为`Function`时，包含两个参数，分别是`constant`（等同于`fro.constant`）和`state`（此参数是`fro`对象中的虚拟数据对象`virtual_state`），返回一个`Boolean`类型的值。当此参数为真或者返回值为真时，`fro.logic.apply(condition, ...args)`函数运行，当此参数为空时，默认执行此函数。
-- `args: Array<String>` 可选参数，装载需要用虚拟数据覆盖到真实数据的数据变量名。当`args`的`length`为0时，将所有改变了的虚拟数据都覆盖到真实数据；其他情况下，只覆盖特定数据。
+- `args?: Array<String>` 可选参数，装载需要用虚拟数据覆盖到真实数据的数据变量名。当`args`的`length`为0时，将所有改变了的虚拟数据都覆盖到真实数据；其他情况下，只覆盖特定数据。
 #### 返回值：`fro.logic`
 #### 例子
 ```javascript

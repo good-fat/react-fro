@@ -330,11 +330,11 @@ function App(props) {
 export default App;
 ```
 ---
-### fro.logic.apply(...args)
+### fro.logic.apply(condition, ...args)
 ##### Get all, after the last `apply`, the variables shared by the virtual data object and the real data object, overwrite the real data with the virtual data, and trigger the re-rendering of the `react` page.
 #### parameter
 - `condition? :Function / Boolean` An optional parameter that determines whether this function is actually executed. When the type of this parameter is `function`, it contains two parameters, `constant` (equivalent to `fro.constant`) and `state` (this parameter is the virtual data object `virtual_state` in the `fro` object. ), returns a value of type `Boolean`. When this parameter is true or the return value is true, the `fro.logic.apply (condition,... args)` function runs. When this parameter is empty, this function is executed by default.
-- `args: Array<String>` An optional parameter that loads the data variable name that needs to be overwritten with virtual data to the real data. When the `lengths` of `args` is 0, all the changed virtual data is overwritten to the real data; in other cases, only the specific data is overwritten.
+- `args?: Array<String>` An optional parameter that loads the data variable name that needs to be overwritten with virtual data to the real data. When the `lengths` of `args` is 0, all the changed virtual data is overwritten to the real data; in other cases, only the specific data is overwritten.
 #### return：`fro.logic`
 #### example
 ```javascript
