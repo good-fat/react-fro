@@ -319,7 +319,19 @@ const create = () => {
     return fro
   }
 
-  const apply = (...args) => {
+  const apply = (condition, ...args) => {
+    if(condition !== undefined) {
+      if(type.of(condition) === type.function) {
+        if(!condition(fro.constant, virtual_state)) {
+          return fro.logic
+        }
+      }
+      else {
+        if(!condition) {
+          return fro.logic
+        }
+      }
+    }
     pmfl.make2().add([0], () => {
       changed_data.map((value) => {
         if (real_data_set.has(value)) {
