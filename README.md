@@ -7,7 +7,7 @@ A interesting data management library of react that uses virtual data technology
 - Make the process of combining functions wonderful with chained calls and clever function functions
 - View program run data at any time using the `log` function
 - Rely on `Immutable.js` and `pmfl`
-- Need `HOOKS` API, currently only supports `React v16.7.0-alpha` and `React v16.8.0-alpha`
+- Need `HOOKS` API, currently only supports `React v16.8.1`
 ---
 # Example
 ```javascript

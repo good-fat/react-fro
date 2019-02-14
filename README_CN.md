@@ -7,7 +7,7 @@
 - 使用链式调用和巧妙的功能函数，让组合函数的过程变得美妙
 - 使用`log`函数随时查看程序运行数据
 - 依赖`Immutable.js`和`pmfl`
-- 需要`HOOKS`API，目前只支持`React v16.7.0-alpha`和`React v16.8.0-alpha`
+- 需要`HOOKS`API，目前只支持`React v16.8.1`
 ---
 # 示例程序
 ```javascript
