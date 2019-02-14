@@ -25,7 +25,7 @@ function App(props) {
 
   return <div>
     <p>{fro.state.count}</p>
-    <button onClick={() => { fro.logic.countPlus(null,true,5).apply("count")}}>plus 5</button>
+    <button onClick={() => { fro.logic.countPlus(null,true,5).apply(true,"count")}}>plus 5</button>
   </div >
 }
 export default App;
@@ -68,11 +68,11 @@ npm i react-fro --save
 ### fro.logic
 ##### 逻辑函数对象，调用`fro.add(func, other_name)`方法可向此对象添加逻辑函数。
 #### 包含
-- fro.logic.apply(...args)
+- fro.logic.apply(condition, ...args)
 - fro.logic.back()
 ---
 ### fro.state
-##### 装载所有`react`渲染所需的真实数据，由`fro.involve(str, data_array)`方法初始化此对象的数据，由`fro.logic.apply(...args)`方法同步虚拟数据到此对象。
+##### 装载所有`react`渲染所需的真实数据，由`fro.involve(str, data_array)`方法初始化此对象的数据，由`fro.logic.apply(condition, ...args)`方法同步虚拟数据到此对象。
 ---
 ### fro.effect
 ##### 副作用函数对象，调用`fro.affect(func, other_name)`方法可向此对象添加包含副作用的函数。

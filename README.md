@@ -25,7 +25,7 @@ function App(props) {
 
   return <div>
     <p>{fro.state.count}</p>
-    <button onClick={() => { fro.logic.countPlus(null,true,5).apply("count")}}>plus 5</button>
+    <button onClick={() => { fro.logic.countPlus(null,true,5).apply(true, "count")}}>plus 5</button>
   </div >
 }
 export default App;
@@ -68,11 +68,11 @@ npm i react-fro --save
 ### fro.logic
 ##### A logical function object that calls the `fro.add(func, other_name)` method to add a logical function to this object.
 #### contain
-- fro.logic.apply(...args)
+- fro.logic.apply(condition, ...args)
 - fro.logic.back()
 ---
 ### fro.state
-##### Load all the real data needed for `react` rendering, initialize the data of this object by `fro.involve(str, data_array)` method, and synchronize the virtual data by `fro.logic.apply(...args)` method. Object.
+##### Load all the real data needed for `react` rendering, initialize the data of this object by `fro.involve(str, data_array)` method, and synchronize the virtual data by `fro.logic.apply(condition, ...args)` method. Object.
 ---
 ### fro.effect
 ##### A side-effect function object that calls the `fro.affect(func, other_name)` method to add a function containing side effects to this object.
