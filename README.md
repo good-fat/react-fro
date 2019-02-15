@@ -290,7 +290,7 @@ function App(props) {
       return function clean_up() {
         fro.uninstall("App")
       }
-    })
+    }, [])
 
     return <div>
       <p>{fro.state.count1}</p>
