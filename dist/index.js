@@ -39,6 +39,7 @@ var create = function create() {
   var virtual_state = {};
   fro.constant = {};
   fro.logic = {};
+  fro.mixing = {};
   fro.effect = {};
   fro.state = {};
   fro.ref = {};
@@ -128,6 +129,91 @@ var create = function create() {
     return fro;
   };
 
+  var mix = function mix(func, other_name) {
+    var temp_func = function temp_func(data, condition, times) {
+      var run_flag;
+
+      _pmfl.pmfl.make2().add([_pmfl.type.undefined], function () {
+        run_flag = true;
+      }).add([_pmfl.type.function], function (match_data) {
+        if (match_data(fro.constant, virtual_state)) {
+          run_flag = true;
+        } else {
+          run_flag = false;
+        }
+      }).neither(function (match_data) {
+        if (match_data) {
+          run_flag = true;
+        } else {
+          run_flag = false;
+        }
+      }).match([_pmfl.type.of(condition)], condition);
+
+      if (!run_flag) {
+        return fro.mixing;
+      }
+
+      var loop_times;
+
+      _pmfl.pmfl.make2().add([_pmfl.type.number], function (match_data) {
+        var temp_num = Math.floor(match_data);
+
+        if (temp_num < 1) {
+          loop_times = 1;
+        } else {
+          loop_times = temp_num;
+        }
+      }).neither(function () {
+        loop_times = 1;
+      }).match([_pmfl.type.of(times)], times);
+
+      for (var i = 0; i < loop_times; i++) {
+        var result = func(data, fro.constant, virtual_state);
+
+        _pmfl.pmfl.make2().add([_pmfl.type.array], function (match_data) {
+          for (var _i2 = 0; _i2 < match_data.length; _i2 += 2) {
+            if (match_data[_i2] !== undefined && match_data[_i2 + 1] !== undefined) {
+              virtual_data = virtual_data.set(match_data[_i2], match_data[_i2 + 1]);
+              virtual_state = virtual_data.toJS();
+              if (!changed_data.includes(match_data[_i2])) changed_data = changed_data.push(match_data[_i2]);
+            }
+          }
+        }).add([_pmfl.type.object], function (match_data) {
+          var temp_data = _immutable.default.Map(match_data);
+
+          virtual_data = virtual_data.mergeDeep(temp_data);
+          virtual_state = virtual_data.toJS();
+          temp_data.map(function (value, key) {
+            if (!changed_data.includes(key)) changed_data = changed_data.push(key);
+            return value;
+          });
+        }).match([_pmfl.type.of(result)], result);
+      }
+
+      return fro.mixing;
+    };
+
+    _pmfl.pmfl.make2().add(function (condition_data) {
+      if (condition_data[0] === undefined) return true;
+    }, function (match_data) {
+      var _match_data3 = _slicedToArray(match_data, 4),
+          mixing = _match_data3[0],
+          func = _match_data3[1],
+          temp_func = _match_data3[3];
+
+      mixing[func.name] = temp_func;
+    }).neither(function (match_data) {
+      var _match_data4 = _slicedToArray(match_data, 4),
+          mixing = _match_data4[0],
+          other_name = _match_data4[2],
+          temp_func = _match_data4[3];
+
+      mixing[other_name] = temp_func;
+    }).match([other_name], [fro.mixing, func, other_name, temp_func]);
+
+    return fro;
+  };
+
   var affect = function affect(func, other_name) {
     var temp_func = function temp_func(data, condition, times) {
       var run_flag;
@@ -176,17 +262,17 @@ var create = function create() {
     _pmfl.pmfl.make2().add(function (condition_data) {
       if (condition_data[0] === undefined) return true;
     }, function (match_data) {
-      var _match_data3 = _slicedToArray(match_data, 4),
-          effect = _match_data3[0],
-          func = _match_data3[1],
-          temp_func = _match_data3[3];
+      var _match_data5 = _slicedToArray(match_data, 4),
+          effect = _match_data5[0],
+          func = _match_data5[1],
+          temp_func = _match_data5[3];
 
       effect[func.name] = temp_func;
     }).neither(function (match_data) {
-      var _match_data4 = _slicedToArray(match_data, 4),
-          effect = _match_data4[0],
-          other_name = _match_data4[2],
-          temp_func = _match_data4[3];
+      var _match_data6 = _slicedToArray(match_data, 4),
+          effect = _match_data6[0],
+          other_name = _match_data6[2],
+          temp_func = _match_data6[3];
 
       effect[other_name] = temp_func;
     }).match([other_name], [fro.effect, func, other_name, temp_func]);
@@ -205,9 +291,9 @@ var create = function create() {
 
   var set = function set(str, set_data) {
     _pmfl.pmfl.make2().add([false], function (match_data) {
-      var _match_data5 = _slicedToArray(match_data, 2),
-          other_str = _match_data5[0],
-          other_data = _match_data5[1];
+      var _match_data7 = _slicedToArray(match_data, 2),
+          other_str = _match_data7[0],
+          other_data = _match_data7[1];
 
       virtual_data = virtual_data.set(other_str, other_data);
     }).match([virtual_data.has(str)], [str, set_data]);
@@ -218,9 +304,9 @@ var create = function create() {
 
   var delimit = function delimit(str, const_data) {
     _pmfl.pmfl.make2().add([false], function (match_data) {
-      var _match_data6 = _slicedToArray(match_data, 2),
-          other_str = _match_data6[0],
-          other_data = _match_data6[1];
+      var _match_data8 = _slicedToArray(match_data, 2),
+          other_str = _match_data8[0],
+          other_data = _match_data8[1];
 
       if (other_data !== undefined) {
         constant_data = constant_data.set(other_str, other_data);
@@ -261,6 +347,14 @@ var create = function create() {
         marked_data.get(str_data).push(["affect", other_name]);
       }
       affect(func, other_name);
+      return temp_obj;
+    };
+
+    temp_obj.mixing = function (func, other_name) {
+      if (other_name === undefined) marked_data.get(str_data).push(["mixing", func.name]);else {
+        marked_data.get(str_data).push(["mixing", other_name]);
+      }
+      mix(func, other_name);
       return temp_obj;
     };
 
@@ -312,6 +406,8 @@ var create = function create() {
         delete fro.logic[match_data];
       }).add(["affect"], function (match_data) {
         delete fro.effect[match_data];
+      }).add(["mixing"], function (match_data) {
+        delete fro.mixing[match_data];
       }).add(["involve"], function (match_data) {
         if (virtual_data.has(match_data)) virtual_data = virtual_data.delete(match_data);
         real_data = real_data.delete(match_data);
@@ -346,6 +442,8 @@ var create = function create() {
       console.info("ref", ref_data.toJS());
     } else if (str === "logic") {
       console.info("logic", fro.logic);
+    } else if (str === "mixing") {
+      console.info("mixing", fro.mixing);
     } else if (str === "effect") {
       console.info("effect", fro.effect);
     } else if (str === "state") {
@@ -358,6 +456,7 @@ var create = function create() {
       console.info("constant", constant_data.toJS());
       console.info("ref", ref_data.toJS());
       console.info("logic", fro.logic);
+      console.info("mixing", fro.mixing);
       console.info("effect", fro.effect);
       console.info("state", real_data.toJS());
       console.info("virtual_state", virtual_data.toJS());
@@ -410,12 +509,56 @@ var create = function create() {
     return fro.logic;
   };
 
+  var mix_apply = function mix_apply(condition) {
+    if (condition !== undefined) {
+      if (_pmfl.type.of(condition) === _pmfl.type.function) {
+        if (!condition(fro.constant, virtual_state)) {
+          return fro.mixing;
+        }
+      } else {
+        if (!condition) {
+          return fro.mixing;
+        }
+      }
+    }
+
+    for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+      args[_key2 - 1] = arguments[_key2];
+    }
+
+    _pmfl.pmfl.make2().add([0], function () {
+      changed_data.map(function (value) {
+        if (real_data_set.has(value)) {
+          real_data_set.get(value)(virtual_data.get(value));
+        }
+      });
+      changed_data = _immutable.default.List([]);
+    }).neither(function (match_data) {
+      match_data.map(function (arg) {
+        if (changed_data.includes(arg) && real_data_set.has(arg)) {
+          real_data_set.get(arg)(virtual_data.get(arg));
+          changed_data = changed_data.delete(changed_data.findIndex(function (value) {
+            return value === arg;
+          }));
+        } else {
+          console.warn("Invalid variable name: ", arg);
+        }
+
+        return;
+      });
+    }).match([args.length], args);
+
+    fro.state = real_data.toJS();
+    return fro.mixing;
+  };
+
   var back = function back() {
     return fro;
   };
 
   fro.add = add;
   fro.affect = affect;
+  fro.mix = mix;
   fro.set = set;
   fro.involve = involve;
   fro.delimit = delimit;
@@ -425,7 +568,9 @@ var create = function create() {
   fro.mark = mark;
   fro.uninstall = uninstall;
   fro.logic.apply = apply;
+  fro.mixing.apply = mix_apply;
   fro.logic.back = back;
+  fro.mixing.back = back;
   fro.effect.back = back;
   return fro;
 };

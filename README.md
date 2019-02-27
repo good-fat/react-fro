@@ -49,6 +49,7 @@ npm i react-fro --save
 #### Contain
 - fro.constant
 - fro.logic
+- fro.mixing
 - fro.state
 - fro.effect
 - fro.ref
@@ -70,6 +71,12 @@ npm i react-fro --save
 #### contain
 - fro.logic.apply(condition, ...args)
 - fro.logic.back()
+---
+### fro.mixing
+##### Both the logic function and the side effect function contain objects that can be added to the object by calling the `fro.mix(func, other_name)` method.
+#### contain
+- fro.mixing.apply(condition, ...args)
+- fro.mixing.back()
 ---
 ### fro.state
 ##### Load all the real data needed for `react` rendering, initialize the data of this object by `fro.involve(str, data_array)` method, and synchronize the virtual data by `fro.logic.apply(condition, ...args)` method. Object.
@@ -115,6 +122,43 @@ function App(props) {
       <button onClick={()=>{fro.logic.set_count(10).count_plus(null,true,5).apply()}}>count2 to be 10 and count1 plus 5</button>
       <p>{fro.state.count2}</p>
       <button onClick={()=>{fro.logic.set_count(101).apply()}}>set_count</button>
+    </div>
+}
+export default App;
+```
+---
+### fro.mix(func, other_name)
+##### Add a business function to the `fro.mixing` object that can perform both side effects and modify virtual data. This function is used when both side effects and virtual data need to be modified.
+#### parameter
+- `func: Function` This function is a function of the custom business added to the `fro.mixing` object. There are two data objects inside `fro`, which are virtual data and real data. This function has three parameters, `data`, `constant` (equivalent to `fro.constant`) and `state` (this parameter is the virtual data object `virtual_state` in the `fro` object). The return value of this parameter can take two forms, an array or an object. When the return value is an array, the even-numbered element of the array is used as the key of the virtual data, and the odd-numbered element is used as the value of the virtual data, and is supplied to the virtual_state object of the fro. This object is provided directly to the virtual_state object when the return value is an object.
+- `other_name: String` This parameter is optional. The function name of the `func: Function` parameter is overridden when this parameter is present. If `func: Function` is an anonymous function, this parameter must exist.
+#### Additional instructions
+##### The function added to the `fro.mixing` object contains three parameters, `data`, `condition`, `times`.
+- `data: Any` The first argument passed to the function in `fro.mixing` represents user-defined data, usually an object or array type.
+- `condition: Function/Boolean` is passed to the second argument of the function in `fro.mixing`. If the argument is `true` or the return value of this function is `true`, the function can execute the predefined logic; otherwise, the function returns directly. Do not execute logic. The function logic is executed by default when the parameter does not exist.
+- `times: Number` The third parameter passed to the function in `fro.mixing` represents the number of executions of the logic function. When this parameter is less than 1, it is executed only once; when this parameter is decimal, the number of integer parts is executed.
+#### return：`fro`
+#### example
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.mix(count_plus)
+    .mix((data, constant, state)=>["count2",data], "set_count")
+    .involve("count1",useState(0)).involve("count2", useState(0))
+
+    function count_plus(data, constant, state) {
+      console.log("it's cool~")
+      return { count1: state.count1 + 1 }
+    }
+
+    return <div>
+      <p>{fro.state.count1}</p>
+      <button onClick={()=>{fro.mixing.set_count(10).count_plus(null,true,5).apply()}}>count2 to be 10 and count1 plus 5</button>
+      <p>{fro.state.count2}</p>
+      <button onClick={()=>{fro.mixing.set_count(101).apply()}}>set_count</button>
     </div>
 }
 export default App;
@@ -306,7 +350,7 @@ export default App;
 ### fro.log(str?)
 ##### Output the data in the current fro object.
 #### parameter
-- `str: String` Optional parameters. When the values are `constant`, `ref`, `logic`, `effect`, `state`, `virtual_state`, `marked_data`, the data of these seven objects are output separately. When the value is other or non-existent, all objects are output. The data.
+- `str: String` Optional parameters. When the values are `constant`, `ref`, `logic`, `mixing`, `effect`, `state`, `virtual_state`, `marked_data`, the data of these seven objects are output separately. When the value is other or non-existent, all objects are output. The data.
 #### return：`fro`
 #### example
 ```javascript
@@ -373,6 +417,54 @@ function App(props) {
   return <div>
     <p>{fro.state.count}</p>
     <button onClick={()=>{fro.logic.set_count().apply().back().log()}}>to be 10 and show log</button>
+  </div>
+}
+export default App;
+```
+---
+### fro.mixing.apply(condition, ...args)
+##### Get all, after the last `apply`, the variables shared by the virtual data object and the real data object, overwrite the real data with the virtual data, and trigger the re-rendering of the `react` page.
+#### parameter
+- `condition?: Function/Boolean` An optional parameter that determines whether this function is actually executed. When the type of this parameter is `Function`, it contains two parameters, `constant` (equivalent to `fro.constant`) and `state` (this parameter is the virtual data object `virtual_state` in the `fro` object. ), returns a value of type `Boolean`. When this parameter is true or the return value is true, the `fro.mixing.apply(condition, ...args)` function runs. When this parameter is empty, this function is executed by default.
+- `args?: Array<String>` An optional parameter that loads the data variable name that needs to be overwritten with virtual data to the real data. When the `lengths` of `args` is 0, all the changed virtual data is overwritten to the real data; in other cases, only the specific data is overwritten.
+#### return：`fro.mixing`
+#### example
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+
+  fro.mix((data, constant, state)=>["count",state.count + 1], "set_count")
+  .involve("count", useState(0))
+
+  return <div>
+    <p>{fro.state.count}</p>
+    <button onClick={()=>{fro.mixing.set_count().apply()}}>plus 1</button>
+    <button onClick={()=>{fro.mixing.set_count().apply(null)}}>no change</button>
+    <button onClick={()=>{fro.mixing.set_count().apply((constant, state)=>true, "count")}}>plus 1 too</button>
+  </div>
+  //If the apply function is not called here, the page will not change.
+}
+export default App;
+```
+---
+### fro.mixing.back()
+##### return `fro` object。
+#### return：`fro`
+#### example
+```javascript
+import React from 'react';
+import { useState } from 'react';
+import fro from 'react-fro'
+function App(props) {
+  fro.set("num",10)
+  .add((data, constant, state)=>["count", state.num], "set_count")
+  .involve("count", useState(0))
+
+  return <div>
+    <p>{fro.state.count}</p>
+    <button onClick={()=>{fro.mixing.set_count().apply().back().log()}}>to be 10 and show log</button>
   </div>
 }
 export default App;
